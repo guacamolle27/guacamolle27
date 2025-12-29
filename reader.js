@@ -46,6 +46,8 @@ document.addEventListener("touchstart", e => {
 
 document.addEventListener("touchend", e => {
   let endX = e.changedTouches[0].clientX;
-  if (startX - endX > 50) next();
-  if (endX - startX > 50) prev();
+
+  if (endX - startX > 50) next();
+
+  if (startX - endX > 50) prev();
 });
