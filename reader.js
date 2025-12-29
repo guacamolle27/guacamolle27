@@ -32,10 +32,10 @@ function prev() {
   }
 }
 
-/* TASTATUR (jetzt richtig) */
+/* TASTATUR – jetzt „rechts-nach-links“ */
 document.addEventListener("keydown", e => {
-  if(e.key === "ArrowLeft") prev();   // links → vorherige Seite
-  if(e.key === "ArrowRight") next();  // rechts → nächste Seite
+  if(e.key === "ArrowLeft") next();   // links → nächste Seite
+  if(e.key === "ArrowRight") prev();  // rechts → vorherige Seite
 });
 
 /* TOUCH / SWIPE für iPhone/iPad */
