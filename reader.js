@@ -17,35 +17,49 @@ pages.forEach(src => {
   i.src = src;
 });
 
-/* TASTATUR */
-document.addEventListener("keydown", e => {
-  if (e.key === "ArrowLeft") next();
-  if (e.key === "ArrowRight") prev();
-});
-
+/* FUNKTIONEN */
 function next() {
-  if (current < pages.length - 1) {
+  if(current < pages.length - 1) {
     current++;
     img.src = pages[current];
   }
 }
 
 function prev() {
-  if (current > 0) {
+  if(current > 0) {
     current--;
     img.src = pages[current];
   }
 }
 
-/* TOUCH / SWIPE */
-let startX = 0;
-
-document.addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
+/* TASTATUR */
+document.addEventListener("keydown", e => {
+  if(e.key === "ArrowLeft") prev();   // links → vorherige Seite
+  if(e.key === "ArrowRight") next();  // rechts → nächste Seite
 });
 
+/* TOUCH / SWIPE für iPhone/iPad */
+let startX = 0;
+let isSwiping = false;
+
+document.addEventListener("touchstart", e => {
+  if(e.touches.length === 1) {
+    startX = e.touches[0].clientX;
+    isSwiping = true;
+  }
+});
+
+document.addEventListener("touchmove", e => {
+  if(isSwiping) e.preventDefault(); // verhindert Scrollen
+}, { passive: false });
+
 document.addEventListener("touchend", e => {
+  if(!isSwiping) return;
   let endX = e.changedTouches[0].clientX;
-  if (startX - endX > 50) next();
-  if (endX - startX > 50) prev();
+  let diff = endX - startX;
+
+  if(diff > 50) next();       // rechts → nächste Seite
+  else if(diff < -50) prev(); // links → vorherige Seite
+
+  isSwiping = false;
 });
