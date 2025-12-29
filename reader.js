@@ -1,4 +1,3 @@
-// ----- Seiten definieren -----
 const pages = [
   "pages/page1.webp",
   "pages/page2.webp",
@@ -9,17 +8,21 @@ const pages = [
   "pages/page7.webp"
 ];
 
-// ----- Variablen -----
 let current = 0;
 const img = document.getElementById("page");
 
-// ----- Preload aller Seiten -----
+/* PRELOAD */
 pages.forEach(src => {
   const i = new Image();
   i.src = src;
 });
 
-// ----- Funktionen -----
+/* TASTATUR */
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") next();
+  if (e.key === "ArrowRight") prev();
+});
+
 function next() {
   if (current < pages.length - 1) {
     current++;
@@ -34,41 +37,15 @@ function prev() {
   }
 }
 
-// ----- Tastatur-Steuerung -----
-document.addEventListener("keydown", e => {
-  if (e.key === "ArrowLeft") prev();
-  if (e.key === "ArrowRight") next();
-});
-
-// ----- Touch / Swipe (iPhone & iPad kompatibel) -----
+/* TOUCH / SWIPE */
 let startX = 0;
-let isSwiping = false;
 
 document.addEventListener("touchstart", e => {
-  if (e.touches.length === 1) {  // nur ein Finger
-    startX = e.touches[0].clientX;
-    isSwiping = true;
-  }
+  startX = e.touches[0].clientX;
 });
 
-document.addEventListener("touchmove", e => {
-  if (isSwiping) {
-    e.preventDefault();  // verhindert Scrollen
-  }
-}, { passive: false });
-
 document.addEventListener("touchend", e => {
-  if (!isSwiping) return;
-
   let endX = e.changedTouches[0].clientX;
-  let diff = endX - startX;
-  const threshold = 50; // Mindestabstand für Swipe
-
-  if (diff > threshold) {
-    next();  // Finger nach rechts → nächste Seite
-  } else if (diff < -threshold) {
-    prev();  // Finger nach links → vorherige Seite
-  }
-
-  isSwiping = false;
+  if (startX - endX > 50) next();
+  if (endX - startX > 50) prev();
 });
