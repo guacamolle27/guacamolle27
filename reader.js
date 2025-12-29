@@ -1,24 +1,32 @@
 let startX = 0;
-let isMoving = false;
+let isSwiping = false;
 
 document.addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
-  isMoving = true;
+  if(e.touches.length === 1) {  // nur ein Finger
+    startX = e.touches[0].clientX;
+    isSwiping = true;
+  }
 });
 
 document.addEventListener("touchmove", e => {
-  // Verhindert, dass Safari scrollt
-  if (isMoving) e.preventDefault();
+  if(isSwiping) {
+    e.preventDefault();  // verhindert Scrollen
+  }
 }, { passive: false });
 
 document.addEventListener("touchend", e => {
-  if (!isMoving) return;
+  if(!isSwiping) return;
+
   let endX = e.changedTouches[0].clientX;
   let diff = endX - startX;
 
-  // Swipe Threshold
-  if (diff > 50) next();       // Finger nach rechts → nächste Seite
-  else if (diff < -50) prev(); // Finger nach links → vorherige Seite
+  const threshold = 50; // Mindestabstand für Swipe
 
-  isMoving = false;
+  if(diff > threshold) {
+    next();  // Finger nach rechts → nächste Seite
+  } else if(diff < -threshold) {
+    prev();  // Finger nach links → vorherige Seite
+  }
+
+  isSwiping = false;
 });
