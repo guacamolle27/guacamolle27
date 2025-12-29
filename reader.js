@@ -20,21 +20,21 @@ pages.forEach(src => {
 });
 
 // ----- Funktionen -----
-function next() {
+function next() {          // Nächste Seite
   if(current < pages.length - 1) {
     current++;
     img.src = pages[current];
   }
 }
 
-function prev() {
+function prev() {          // Vorherige Seite
   if(current > 0) {
     current--;
     img.src = pages[current];
   }
 }
 
-// ----- Tastatur-Steuerung (rechts-nach-links) -----
+// ----- Tastatursteuerung (rechts-nach-links Manga) -----
 document.addEventListener("keydown", e => {
   if(e.key === "ArrowLeft") next();   // Linkspfeil → nächste Seite
   if(e.key === "ArrowRight") prev();  // Rechtspfeil → vorherige Seite
@@ -45,7 +45,7 @@ let startX = 0;
 let isSwiping = false;
 
 document.addEventListener("touchstart", e => {
-  if(e.touches.length === 1) {  // nur ein Finger
+  if(e.touches.length === 1) {
     startX = e.touches[0].clientX;
     isSwiping = true;
   }
