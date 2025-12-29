@@ -32,7 +32,7 @@ function prev() {
   }
 }
 
-/* TASTATUR */
+/* TASTATUR (jetzt richtig) */
 document.addEventListener("keydown", e => {
   if(e.key === "ArrowLeft") prev();   // links → vorherige Seite
   if(e.key === "ArrowRight") next();  // rechts → nächste Seite
